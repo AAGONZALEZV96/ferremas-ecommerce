@@ -7,10 +7,11 @@ import { Producto } from '@/lib/types';
 
 interface ProductCardProps {
   producto: Producto;
+  currency: string;                      // Código de la moneda, ej. 'CLP', 'USD', 'EUR'
   onAddToCart: (producto: Producto) => void;
 }
 
-export function ProductCard({ producto, onAddToCart }: ProductCardProps) {
+export function ProductCard({ producto, currency, onAddToCart }: ProductCardProps) {
   const {
     nombre,
     descripcion,
@@ -21,7 +22,11 @@ export function ProductCard({ producto, onAddToCart }: ProductCardProps) {
   } = producto;
 
   const formatPrice = (value: number) =>
-    new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(value);
+    new Intl.NumberFormat('es-CL', {
+      style: 'currency',
+      currency,
+      minimumFractionDigits: 2,
+    }).format(value);
 
   return (
     <Card className="hover:shadow-lg transition-shadow flex flex-col h-full">
